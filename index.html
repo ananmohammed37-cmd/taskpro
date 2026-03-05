@@ -49,6 +49,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 /* PERMISSIONS */
 .perm-screen{display:none;}
+#step1{display:block;}
+
 .perm-title{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;text-align:center;margin-bottom:4px;}
 .perm-sub{text-align:center;color:var(--muted);font-size:0.8rem;margin-bottom:20px;}
 .perm-item{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--border);border-radius:12px;margin-bottom:10px;background:rgba(255,255,255,0.03);cursor:pointer;transition:.2s;}
@@ -371,13 +373,12 @@ window.kycUploaded = function(input, type) {
 
 // STEPS
 function setStep(n) {
+  document.getElementById('step1').style.display = n===1 ? 'block' : 'none'
+  document.getElementById('step2').style.display = n===2 ? 'block' : 'none'
+  document.getElementById('step3').style.display = n===3 ? 'block' : 'none'
   for(let i=1;i<=3;i++) {
-    document.getElementById('step'+i).style.display = 'none'
     document.getElementById('s'+i).className = 'step' + (i < n ? ' done' : i === n ? ' active' : '')
   }
-  if(n===2){ document.getElementById('step2').style.display='block' }
-  else if(n===3){ document.getElementById('step3').style.display='block' }
-  else { document.getElementById('step1').style.display='block' }
 }
 
 window.goBack = function(to) { setStep(to) }
