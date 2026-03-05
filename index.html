@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TaskPro — تسجيل الدخول</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070710;--card:#13131f;--border:rgba(255,255,255,0.08);--accent:#7c5cfc;--accent2:#fc5ca0;--green:#2eff9e;--usdt:#26a17b;--text:#eeeef8;--muted:#666680;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Tajawal',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 30% 30%,rgba(124,92,252,0.1),transparent 50%),radial-gradient(ellipse at 70% 70%,rgba(252,92,160,0.07),transparent 50%);pointer-events:none;}
+
+/* LANG SWITCHER */
+.lang-bar{position:fixed;top:16px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:100;background:rgba(19,19,31,0.9);border:1px solid var(--border);border-radius:20px;padding:6px 10px;backdrop-filter:blur(10px);}
+.lang-btn{padding:4px 10px;border-radius:12px;border:none;background:transparent;color:var(--muted);font-family:'Tajawal',sans-serif;font-size:0.78rem;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:4px;}
+.lang-btn.active{background:var(--accent);color:white;}
+.lang-btn:hover:not(.active){color:var(--text);}
+
+.auth-box{width:460px;max-width:95%;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px;position:relative;z-index:1;margin-top:60px;}
+.logo{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;text-align:center;margin-bottom:6px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.tagline{text-align:center;color:var(--muted);font-size:0.85rem;margin-bottom:28px;}
+
+.tabs{display:flex;background:rgba(255,255,255,0.04);border-radius:10px;padding:4px;margin-bottom:24px;}
+.tab-btn{flex:1;padding:10px;border:none;background:transparent;color:var(--muted);font-family:'Tajawal',sans-serif;font-weight:700;font-size:0.9rem;cursor:pointer;border-radius:7px;transition:.2s;}
+.tab-btn.active{background:var(--accent);color:white;}
+
+.form-group{margin-bottom:14px;}
+.form-label{display:block;font-size:0.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.form-input{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:0.95rem;outline:none;transition:.2s;}
+.form-input:focus{border-color:var(--accent);background:rgba(124,92,252,0.06);}
+.form-input::placeholder{color:var(--muted);}
+
+.role-select{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.role-option{padding:14px;border:2px solid var(--border);border-radius:10px;text-align:center;cursor:pointer;transition:.2s;}
+.role-option:hover{border-color:var(--accent);}
+.role-option.selected{border-color:var(--accent);background:rgba(124,92,252,0.1);}
+.role-icon{font-size:1.5rem;margin-bottom:4px;}
+.role-name{font-size:0.85rem;font-weight:700;}
+.role-desc{font-size:0.72rem;color:var(--muted);margin-top:2px;}
+
+/* AVATAR */
+.avatar-upload{display:flex;flex-direction:column;align-items:center;margin-bottom:16px;}
+.avatar-preview{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:2rem;cursor:pointer;border:3px dashed rgba(124,92,252,0.4);transition:.3s;position:relative;overflow:hidden;}
+.avatar-preview:hover{border-color:var(--accent);transform:scale(1.05);}
+.avatar-preview img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.avatar-hint{font-size:0.75rem;color:var(--muted);margin-top:8px;}
+.avatar-req{font-size:0.72rem;color:var(--accent2);margin-top:3px;}
+
+/* PERMISSIONS */
+.perm-screen{display:none;}
+#step1{display:block;}
+
+.perm-title{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;text-align:center;margin-bottom:4px;}
+.perm-sub{text-align:center;color:var(--muted);font-size:0.8rem;margin-bottom:20px;}
+.perm-item{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--border);border-radius:12px;margin-bottom:10px;background:rgba(255,255,255,0.03);cursor:pointer;transition:.2s;}
+.perm-item:hover{border-color:rgba(124,92,252,0.3);}
+.perm-icon{font-size:1.5rem;flex-shrink:0;}
+.perm-info{flex:1;}
+.perm-name{font-weight:700;font-size:0.85rem;}
+.perm-desc{font-size:0.73rem;color:var(--muted);margin-top:2px;}
+.perm-status{font-size:0.72rem;padding:4px 10px;border-radius:20px;font-weight:700;white-space:nowrap;}
+.perm-status.granted{background:rgba(46,255,158,0.1);color:var(--green);}
+.perm-status.pending{background:rgba(124,92,252,0.1);color:var(--accent);}
+
+/* KYC */
+.kyc-section{display:none;}
+.kyc-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;text-align:center;margin-bottom:4px;}
+.kyc-sub{text-align:center;color:var(--muted);font-size:0.78rem;margin-bottom:18px;}
+.kyc-upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.kyc-upload{border:2px dashed rgba(124,92,252,0.3);border-radius:12px;padding:16px;text-align:center;cursor:pointer;transition:.2s;background:rgba(255,255,255,0.02);}
+.kyc-upload:hover{border-color:var(--accent);background:rgba(124,92,252,0.05);}
+.kyc-upload.uploaded{border-color:var(--green);border-style:solid;}
+.kyc-upload-icon{font-size:1.6rem;margin-bottom:6px;}
+.kyc-upload-label{font-size:0.75rem;color:var(--muted);}
+.kyc-selfie{border:2px dashed rgba(124,92,252,0.3);border-radius:12px;padding:16px;text-align:center;cursor:pointer;transition:.2s;background:rgba(255,255,255,0.02);margin-bottom:12px;}
+.kyc-selfie:hover{border-color:var(--accent);}
+.kyc-selfie.uploaded{border-color:var(--green);border-style:solid;}
+
+.submit-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:10px;color:white;font-family:'Tajawal',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;transition:.2s;margin-top:8px;}
+.submit-btn:hover{opacity:0.88;transform:translateY(-1px);}
+.submit-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+.back-btn{width:100%;padding:10px;background:transparent;border:none;color:var(--muted);font-family:'Tajawal',sans-serif;cursor:pointer;margin-top:8px;font-size:0.85rem;}
+
+.error-msg{background:rgba(245,66,66,0.1);border:1px solid rgba(245,66,66,0.3);border-radius:8px;padding:10px 14px;color:#f54242;font-size:0.83rem;margin-bottom:14px;display:none;}
+.success-msg{background:rgba(46,255,158,0.1);border:1px solid rgba(46,255,158,0.3);border-radius:8px;padding:10px 14px;color:var(--green);font-size:0.83rem;margin-bottom:14px;display:none;}
+
+/* STEP INDICATOR */
+.steps{display:flex;justify-content:center;gap:8px;margin-bottom:20px;}
+.step{width:28px;height:4px;border-radius:2px;background:rgba(255,255,255,0.1);transition:.3s;}
+.step.active{background:var(--accent);}
+.step.done{background:var(--green);}
+
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-left:8px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<!-- LANGUAGE BAR -->
+<div class="lang-bar" id="langBar">
+  <button class="lang-btn active" onclick="changeLang('ar')" data-lang="ar">🇸🇦 AR</button>
+  <button class="lang-btn" onclick="changeLang('en')" data-lang="en">🇺🇸 EN</button>
+  <button class="lang-btn" onclick="changeLang('fr')" data-lang="fr">🇫🇷 FR</button>
+  <button class="lang-btn" onclick="changeLang('es')" data-lang="es">🇪🇸 ES</button>
+  <button class="lang-btn" onclick="changeLang('tr')" data-lang="tr">🇹🇷 TR</button>
+</div>
+
+<div class="auth-box">
+  <div class="logo">TaskPro</div>
+  <div class="tagline" id="tagline">اكسب USDT من مهاراتك 💎</div>
+
+  <div class="tabs" id="authTabs">
+    <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">تسجيل الدخول</button>
+    <button class="tab-btn" id="tabRegister" onclick="switchTab('register')">حساب جديد</button>
+  </div>
+
+  <div id="errorMsg" class="error-msg"></div>
+  <div id="successMsg" class="success-msg"></div>
+
+  <!-- LOGIN -->
+  <div id="loginForm">
+    <div class="form-group">
+      <label class="form-label" id="lblEmail">البريد الإلكتروني</label>
+      <input class="form-input" id="loginEmail" type="email" placeholder="example@email.com" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" id="lblPassword">كلمة المرور</label>
+      <input class="form-input" id="loginPassword" type="password" placeholder="••••••••" />
+    </div>
+    <button class="submit-btn" id="loginBtn" onclick="handleLogin()">دخول →</button>
+  </div>
+
+  <!-- REGISTER -->
+  <div id="registerForm" style="display:none">
+
+    <!-- STEP INDICATOR -->
+    <div class="steps" id="stepsBar">
+      <div class="step active" id="s1"></div>
+      <div class="step" id="s2"></div>
+      <div class="step" id="s3"></div>
+    </div>
+
+    <!-- STEP 1: INFO + AVATAR -->
+    <div id="step1">
+      <div class="form-group">
+        <label class="form-label" id="lblRole">اختر دورك</label>
+        <div class="role-select">
+          <div class="role-option selected" id="roleWorker" onclick="selectRole('worker')">
+            <div class="role-icon">👷</div>
+            <div class="role-name" id="rnWorker">عامل</div>
+            <div class="role-desc" id="rdWorker">أكسب USDT من المهام</div>
+          </div>
+          <div class="role-option" id="roleAdmin" onclick="selectRole('admin')">
+            <div class="role-icon">🏢</div>
+            <div class="role-name" id="rnAdmin">صاحب عمل</div>
+            <div class="role-desc" id="rdAdmin">انشر مهام واحصل على نتائج</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" id="lblPhoto">صورة الملف الشخصي <span style="color:var(--accent2)">*</span></label>
+        <div class="avatar-upload">
+          <div class="avatar-preview" id="avatarPreview" onclick="document.getElementById('avatarInput').click()">📷</div>
+          <div class="avatar-hint" id="avatarHint">اضغط لاختيار صورة</div>
+          <div class="avatar-req" id="avatarReq">⚠️ الصورة إجبارية لإنشاء الحساب</div>
+          <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="previewAvatar(this)">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" id="lblUsername">اسم المستخدم</label>
+        <input class="form-input" id="regUsername" type="text" placeholder="اسمك في المنصة" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" id="lblEmail2">البريد الإلكتروني</label>
+        <input class="form-input" id="regEmail" type="email" placeholder="example@email.com" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" id="lblPassword2">كلمة المرور</label>
+        <input class="form-input" id="regPassword" type="password" placeholder="8 أحرف على الأقل" />
+      </div>
+      <button class="submit-btn" id="registerBtn" onclick="goToPermissions()">التالي — الأذونات 🔐</button>
+    </div>
+
+    <!-- STEP 2: PERMISSIONS -->
+    <div id="step2" class="perm-screen">
+      <div class="perm-title" id="permTitle">🔐 الأذونات المطلوبة</div>
+      <div class="perm-sub" id="permSub">نحتاج هذه الأذونات لتحسين تجربتك في المنصة</div>
+      <div class="perm-item" onclick="requestNotif()">
+        <div class="perm-icon">🔔</div>
+        <div class="perm-info">
+          <div class="perm-name" id="pNotifName">الإشعارات</div>
+          <div class="perm-desc" id="pNotifDesc">نُعلمك فوراً عند قبول طلبك</div>
+        </div>
+        <span class="perm-status pending" id="notifStatus">اضغط للسماح</span>
+      </div>
+      <div class="perm-item">
+        <div class="perm-icon">🖼️</div>
+        <div class="perm-info">
+          <div class="perm-name" id="pPhotosName">الوصول للصور</div>
+          <div class="perm-desc" id="pPhotosDesc">لرفع صورتك وملفات العمل</div>
+        </div>
+        <span class="perm-status granted" id="photosStatus">✓ مسموح</span>
+      </div>
+      <div class="perm-item">
+        <div class="perm-icon">📊</div>
+        <div class="perm-info">
+          <div class="perm-name" id="pDataName">بيانات الاستخدام</div>
+          <div class="perm-desc" id="pDataDesc">لتحسين أداء المنصة وتخصيص المهام</div>
+        </div>
+        <span class="perm-status granted">✓ مسموح</span>
+      </div>
+      <button class="submit-btn" id="permNextBtn" onclick="goToKyc()" style="margin-top:12px">التالي — التحقق من الهوية 🪪</button>
+      <button class="back-btn" onclick="goBack(1)">← رجوع</button>
+    </div>
+
+    <!-- STEP 3: KYC -->
+    <div id="step3" class="kyc-section">
+      <div class="kyc-title" id="kycTitle">🪪 التحقق من الهوية</div>
+      <div class="kyc-sub" id="kycSub">مطلوب للسحب وللمهام ذات القيمة العالية</div>
+      <div class="kyc-upload-grid">
+        <div class="kyc-upload" id="kycFrontBox" onclick="document.getElementById('kycFrontInput').click()">
+          <div class="kyc-upload-icon" id="kycFrontIcon">🪪</div>
+          <div class="kyc-upload-label" id="kycFrontLbl">صورة الهوية (وجه)</div>
+          <input type="file" id="kycFrontInput" accept="image/*" style="display:none" onchange="kycUploaded(this,'front')">
+        </div>
+        <div class="kyc-upload" id="kycBackBox" onclick="document.getElementById('kycBackInput').click()">
+          <div class="kyc-upload-icon" id="kycBackIcon">🪪</div>
+          <div class="kyc-upload-label" id="kycBackLbl">صورة الهوية (ظهر)</div>
+          <input type="file" id="kycBackInput" accept="image/*" style="display:none" onchange="kycUploaded(this,'back')">
+        </div>
+      </div>
+      <div class="kyc-selfie" id="kycSelfieBox" onclick="document.getElementById('kycSelfieInput').click()">
+        <div class="kyc-upload-icon" id="kycSelfieIcon">🤳</div>
+        <div class="kyc-upload-label" id="kycSelfieLbl">سيلفي مع الهوية — أمسك الهوية بجانب وجهك</div>
+        <input type="file" id="kycSelfieInput" accept="image/*" style="display:none" onchange="kycUploaded(this,'selfie')">
+      </div>
+      <button class="submit-btn" id="finalRegBtn" onclick="finalizeRegister()">إنشاء الحساب وإرسال للمراجعة 🚀</button>
+      <button class="back-btn" onclick="goBack(2)">← رجوع</button>
+    </div>
+
+  </div>
+</div>
+
+<script type="module">
+import { signIn, signUp, getUser, getSession, supabase } from './supabase.js'
+
+// ===== LANGUAGE =====
+const LANGS = { ar:{dir:'rtl'}, en:{dir:'ltr'}, fr:{dir:'ltr'}, es:{dir:'ltr'}, tr:{dir:'ltr'} }
+const T = {
+  tagline:{ar:'اكسب USDT من مهاراتك 💎',en:'Earn USDT from your skills 💎',fr:'Gagnez des USDT 💎',es:'Gana USDT 💎',tr:'Yeteneklerinizden kazan 💎'},
+  tabLogin:{ar:'تسجيل الدخول',en:'Login',fr:'Connexion',es:'Iniciar sesión',tr:'Giriş'},
+  tabReg:{ar:'حساب جديد',en:'New Account',fr:'Nouveau compte',es:'Nueva cuenta',tr:'Yeni Hesap'},
+  lblEmail:{ar:'البريد الإلكتروني',en:'Email',fr:'Email',es:'Correo',tr:'E-posta'},
+  lblPassword:{ar:'كلمة المرور',en:'Password',fr:'Mot de passe',es:'Contraseña',tr:'Şifre'},
+  enterBtn:{ar:'دخول →',en:'Enter →',fr:'Entrer →',es:'Entrar →',tr:'Giriş →'},
+  lblRole:{ar:'اختر دورك',en:'Choose your role',fr:'Choisissez votre rôle',es:'Elige tu rol',tr:'Rolünüzü seçin'},
+  rnWorker:{ar:'عامل',en:'Worker',fr:'Travailleur',es:'Trabajador',tr:'Çalışan'},
+  rdWorker:{ar:'أكسب USDT من المهام',en:'Earn USDT from tasks',fr:'Gagnez des USDT',es:'Gana USDT',tr:'Görevlerden kazan'},
+  rnAdmin:{ar:'صاحب عمل',en:'Employer',fr:'Employeur',es:'Empleador',tr:'İşveren'},
+  rdAdmin:{ar:'انشر مهام واحصل على نتائج',en:'Post tasks & get results',fr:'Publiez des tâches',es:'Publica tareas',tr:'Görev yayınla'},
+  lblPhoto:{ar:'صورة الملف الشخصي',en:'Profile Photo',fr:'Photo de profil',es:'Foto de perfil',tr:'Profil fotoğrafı'},
+  avatarHint:{ar:'اضغط لاختيار صورة',en:'Click to upload photo',fr:'Cliquez pour télécharger',es:'Clic para subir',tr:'Fotoğraf seç'},
+  avatarReq:{ar:'⚠️ الصورة إجبارية لإنشاء الحساب',en:'⚠️ Photo is required',fr:'⚠️ Photo obligatoire',es:'⚠️ Foto requerida',tr:'⚠️ Fotoğraf zorunlu'},
+  lblUsername:{ar:'اسم المستخدم',en:'Username',fr:"Nom d'utilisateur",es:'Usuario',tr:'Kullanıcı adı'},
+  lblPassword2:{ar:'كلمة المرور',en:'Password',fr:'Mot de passe',es:'Contraseña',tr:'Şifre'},
+  nextPerm:{ar:'التالي — الأذونات 🔐',en:'Next — Permissions 🔐',fr:'Suivant — Autorisations 🔐',es:'Siguiente — Permisos 🔐',tr:'Sonraki — İzinler 🔐'},
+  permTitle:{ar:'🔐 الأذونات المطلوبة',en:'🔐 Required Permissions',fr:'🔐 Autorisations requises',es:'🔐 Permisos requeridos',tr:'🔐 Gerekli izinler'},
+  permSub:{ar:'نحتاج هذه الأذونات لتحسين تجربتك',en:'We need these to improve your experience',fr:'Nécessaire pour améliorer votre expérience',es:'Para mejorar tu experiencia',tr:'Deneyiminizi geliştirmek için'},
+  pNotifName:{ar:'الإشعارات',en:'Notifications',fr:'Notifications',es:'Notificaciones',tr:'Bildirimler'},
+  pNotifDesc:{ar:'نُعلمك فوراً عند قبول طلبك',en:'Get notified when task accepted',fr:'Notifications pour vos tâches',es:'Notificaciones de tareas',tr:'Görev bildirimleri'},
+  pPhotosName:{ar:'الوصول للصور',en:'Photo Access',fr:'Accès aux photos',es:'Acceso a fotos',tr:'Fotoğraf erişimi'},
+  pPhotosDesc:{ar:'لرفع صورتك وملفات العمل',en:'To upload your photo and work files',fr:'Pour télécharger vos fichiers',es:'Para subir fotos',tr:'Fotoğraf yüklemek için'},
+  pDataName:{ar:'بيانات الاستخدام',en:'Usage Data',fr:"Données d'utilisation",es:'Datos de uso',tr:'Kullanım verileri'},
+  pDataDesc:{ar:'لتحسين أداء المنصة',en:'To improve platform performance',fr:'Pour améliorer la plateforme',es:'Para mejorar la plataforma',tr:'Platformu geliştirmek için'},
+  granted:{ar:'✓ مسموح',en:'✓ Granted',fr:'✓ Accordé',es:'✓ Permitido',tr:'✓ İzin verildi'},
+  allowClick:{ar:'اضغط للسماح',en:'Click to allow',fr:'Cliquez pour autoriser',es:'Clic para permitir',tr:'İzin vermek için tıkla'},
+  nextKyc:{ar:'التالي — التحقق من الهوية 🪪',en:'Next — Identity Verification 🪪',fr:'Suivant — Vérification d\'identité 🪪',es:'Siguiente — Verificación 🪪',tr:'Sonraki — Kimlik Doğrulama 🪪'},
+  kycTitle:{ar:'🪪 التحقق من الهوية',en:'🪪 Identity Verification',fr:'🪪 Vérification d\'identité',es:'🪪 Verificación de identidad',tr:'🪪 Kimlik Doğrulama'},
+  kycSub:{ar:'مطلوب للسحب وللمهام ذات القيمة العالية',en:'Required for withdrawals and high-value tasks',fr:'Requis pour les retraits et tâches importantes',es:'Requerido para retiros y tareas importantes',tr:'Para çekimler ve büyük görevler için gerekli'},
+  kycFrontLbl:{ar:'صورة الهوية (وجه)',en:'ID Card (Front)',fr:"Carte d'identité (Recto)",es:'DNI (Frente)',tr:'Kimlik (Ön yüz)'},
+  kycBackLbl:{ar:'صورة الهوية (ظهر)',en:'ID Card (Back)',fr:"Carte d'identité (Verso)",es:'DNI (Reverso)',tr:'Kimlik (Arka yüz)'},
+  kycSelfieLbl:{ar:'سيلفي مع الهوية — أمسك الهوية بجانب وجهك',en:'Selfie with ID — hold ID next to your face',fr:'Selfie avec la carte d\'identité',es:'Selfie con DNI — sostén el DNI junto a tu cara',tr:'Kimlikle selfie — kimliği yüzünüzün yanında tutun'},
+  finalBtn:{ar:'إنشاء الحساب وإرسال للمراجعة 🚀',en:'Create Account & Submit for Review 🚀',fr:'Créer un compte et soumettre 🚀',es:'Crear cuenta y enviar 🚀',tr:'Hesap oluştur ve gönder 🚀'},
+  back:{ar:'← رجوع',en:'← Back',fr:'← Retour',es:'← Atrás',tr:'← Geri'},
+  loading:{ar:'جاري التحميل',en:'Loading',fr:'Chargement',es:'Cargando',tr:'Yükleniyor'},
+  errFillAll:{ar:'أكمل جميع الحقول',en:'Please fill all fields',fr:'Remplissez tous les champs',es:'Completa todos los campos',tr:'Tüm alanları doldurun'},
+  errPhoto:{ar:'⚠️ يجب رفع صورة شخصية',en:'⚠️ Profile photo is required',fr:'⚠️ Photo de profil obligatoire',es:'⚠️ Foto de perfil requerida',tr:'⚠️ Profil fotoğrafı zorunlu'},
+  errPass:{ar:'كلمة المرور يجب أن تكون 8 أحرف على الأقل',en:'Password must be at least 8 characters',fr:'Le mot de passe doit avoir 8 caractères minimum',es:'La contraseña debe tener al menos 8 caracteres',tr:'Şifre en az 8 karakter olmalıdır'},
+  errEmail:{ar:'البريد مستخدم مسبقاً',en:'Email already in use',fr:'Email déjà utilisé',es:'Correo ya en uso',tr:'E-posta zaten kullanımda'},
+  errReg:{ar:'خطأ في إنشاء الحساب',en:'Error creating account',fr:'Erreur lors de la création du compte',es:'Error al crear cuenta',tr:'Hesap oluşturulurken hata'},
+  successReg:{ar:'تم إنشاء الحساب بنجاح! 🎉',en:'Account created successfully! 🎉',fr:'Compte créé avec succès! 🎉',es:'¡Cuenta creada exitosamente! 🎉',tr:'Hesap başarıyla oluşturuldu! 🎉'},
+  errLogin:{ar:'بيانات غير صحيحة. تحقق من البريد وكلمة المرور.',en:'Invalid credentials. Check your email and password.',fr:'Identifiants invalides.',es:'Credenciales inválidas.',tr:'Geçersiz kimlik bilgileri.'},
+}
+
+let currentLang = localStorage.getItem('taskpro_lang') || 'ar'
+let selectedRole = 'worker'
+let avatarFile = null
+let kycFiles = { front: null, back: null, selfie: null }
+let pendingRegData = null
+
+// Apply language
+function applyLang(lang) {
+  currentLang = lang
+  localStorage.setItem('taskpro_lang', lang)
+  const dir = LANGS[lang]?.dir || 'rtl'
+  document.documentElement.lang = lang
+  document.documentElement.dir = dir
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang))
+  // Update all text
+  const ids = ['tagline','tabLogin','lblEmail','lblPassword','lblRole','rnWorker','rdWorker','rnAdmin','rdAdmin','lblPhoto','avatarHint','avatarReq','lblUsername','lblEmail2','lblPassword2','permTitle','permSub','pNotifName','pNotifDesc','pPhotosName','pPhotosDesc','pDataName','pDataDesc','kycTitle','kycSub','kycFrontLbl','kycBackLbl','kycSelfieLbl']
+  ids.forEach(id => { const el = document.getElementById(id); if(el && T[id]) el.textContent = T[id][lang] || T[id]['ar'] })
+  const tabReg = document.getElementById('tabRegister'); if(tabReg) tabReg.textContent = T.tabReg[lang] || T.tabReg.ar
+  document.getElementById('loginBtn').textContent = T.enterBtn[lang] || T.enterBtn.ar
+  document.getElementById('registerBtn').textContent = T.nextPerm[lang] || T.nextPerm.ar
+  document.getElementById('permNextBtn').textContent = T.nextKyc[lang] || T.nextKyc.ar
+  document.getElementById('finalRegBtn').textContent = T.finalBtn[lang] || T.finalBtn.ar
+  document.querySelectorAll('.back-btn').forEach(b => b.textContent = T.back[lang] || T.back.ar)
+  const ns = document.getElementById('notifStatus')
+  if(ns && ns.classList.contains('pending')) ns.textContent = T.allowClick[lang] || T.allowClick.ar
+  const ps = document.getElementById('photosStatus')
+  if(ps) ps.textContent = T.granted[lang] || T.granted.ar
+}
+
+window.changeLang = function(lang) { applyLang(lang) }
+
+// Init lang
+applyLang(currentLang)
+
+// Auth check
+getSession().then(session => { if (session) redirectByRole() })
+
+async function redirectByRole() {
+  const user = await getUser()
+  if (!user) return
+  window.location.href = user.role === 'admin' ? 'admin.html' : 'worker.html'
+}
+
+window.selectRole = function(role) {
+  selectedRole = role
+  document.getElementById('roleWorker').classList.toggle('selected', role === 'worker')
+  document.getElementById('roleAdmin').classList.toggle('selected', role === 'admin')
+}
+
+window.switchTab = function(tab) {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', (i===0) === (tab==='login')))
+  document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none'
+  document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none'
+  hideMessages()
+}
+
+// AVATAR
+window.previewAvatar = function(input) {
+  const file = input.files[0]; if(!file) return
+  avatarFile = file
+  const reader = new FileReader()
+  reader.onload = e => {
+    const p = document.getElementById('avatarPreview')
+    p.innerHTML = `<img src="${e.target.result}">`
+    p.style.border = '3px solid var(--green)'
+  }
+  reader.readAsDataURL(file)
+}
+
+// KYC
+window.kycUploaded = function(input, type) {
+  const file = input.files[0]; if(!file) return
+  kycFiles[type] = file
+  const boxId = type === 'front' ? 'kycFrontBox' : type === 'back' ? 'kycBackBox' : 'kycSelfieBox'
+  const iconId = type === 'front' ? 'kycFrontIcon' : type === 'back' ? 'kycBackIcon' : 'kycSelfieIcon'
+  document.getElementById(boxId).classList.add('uploaded')
+  document.getElementById(iconId).textContent = '✅'
+}
+
+// STEPS
+function setStep(n) {
+  document.getElementById('step1').style.display = n===1 ? 'block' : 'none'
+  document.getElementById('step2').style.display = n===2 ? 'block' : 'none'
+  document.getElementById('step3').style.display = n===3 ? 'block' : 'none'
+  for(let i=1;i<=3;i++) {
+    document.getElementById('s'+i).className = 'step' + (i < n ? ' done' : i === n ? ' active' : '')
+  }
+}
+
+window.goBack = function(to) { setStep(to) }
+
+window.goToPermissions = function() {
+  const username = document.getElementById('regUsername').value.trim()
+  const email = document.getElementById('regEmail').value.trim()
+  const password = document.getElementById('regPassword').value
+  if(!avatarFile) return showError(T.errPhoto[currentLang] || T.errPhoto.ar)
+  if(!username || !email || !password) return showError(T.errFillAll[currentLang] || T.errFillAll.ar)
+  if(password.length < 8) return showError(T.errPass[currentLang] || T.errPass.ar)
+  pendingRegData = { username, email, password }
+  hideMessages()
+  setStep(2)
+  requestNotif()
+}
+
+window.goToKyc = function() { hideMessages(); setStep(3) }
+
+window.requestNotif = function() {
+  if(!('Notification' in window)) return
+  Notification.requestPermission().then(p => {
+    const el = document.getElementById('notifStatus')
+    if(p === 'granted') { el.textContent = T.granted[currentLang] || T.granted.ar; el.className = 'perm-status granted' }
+    else { el.textContent = '✗'; el.className = 'perm-status pending' }
+  })
+}
+
+window.finalizeRegister = async function() {
+  if(!pendingRegData) return
+  const { username, email, password } = pendingRegData
+  const btn = document.getElementById('finalRegBtn')
+  btn.disabled = true
+  btn.innerHTML = `${T.loading[currentLang]||'Loading'} <span class="spinner"></span>`
+
+  const { data, error } = await signUp(email, password, username, selectedRole)
+  if(error) {
+    btn.disabled = false; btn.textContent = T.finalBtn[currentLang] || T.finalBtn.ar
+    setStep(1)
+    return showError(error.message.includes('already') ? (T.errEmail[currentLang]||T.errEmail.ar) : (T.errReg[currentLang]||T.errReg.ar))
+  }
+
+  const userId = data?.user?.id
+  if(userId) {
+    // Upload avatar
+    if(avatarFile) {
+      try {
+        const ext = avatarFile.name.split('.').pop()
+        const { data: upData } = await supabase.storage.from('avatars').upload(`avatars/${userId}.${ext}`, avatarFile, { upsert: true })
+        if(upData) {
+          const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(`avatars/${userId}.${ext}`)
+          await supabase.from('users').update({ avatar_url: urlData.publicUrl }).eq('id', userId)
+        }
+      } catch(e) { console.log('avatar upload failed', e) }
+    }
+    // Upload KYC files
+    for(const [type, file] of Object.entries(kycFiles)) {
+      if(!file) continue
+      try {
+        const ext = file.name.split('.').pop()
+        await supabase.storage.from('kyc').upload(`${userId}/${type}.${ext}`, file, { upsert: true })
+      } catch(e) { console.log(`kyc ${type} upload failed`, e) }
+    }
+    // Save KYC status
+    try {
+      await supabase.from('users').update({ kyc_status: kycFiles.front && kycFiles.back && kycFiles.selfie ? 'pending' : 'none' }).eq('id', userId)
+    } catch(e) {}
+  }
+
+  showSuccess(T.successReg[currentLang] || T.successReg.ar)
+  setTimeout(() => redirectByRole(), 1800)
+}
+
+window.handleLogin = async function() {
+  const email = document.getElementById('loginEmail').value.trim()
+  const password = document.getElementById('loginPassword').value
+  if(!email || !password) return showError(T.errFillAll[currentLang] || T.errFillAll.ar)
+  const btn = document.getElementById('loginBtn')
+  btn.disabled = true; btn.innerHTML = `${T.loading[currentLang]||'Loading'} <span class="spinner"></span>`
+  const { error } = await signIn(email, password)
+  btn.disabled = false; btn.textContent = T.enterBtn[currentLang] || T.enterBtn.ar
+  if(error) return showError(T.errLogin[currentLang] || T.errLogin.ar)
+  await redirectByRole()
+}
+
+function showError(msg) { const e=document.getElementById('errorMsg'); e.textContent=msg; e.style.display='block'; document.getElementById('successMsg').style.display='none' }
+function showSuccess(msg) { const e=document.getElementById('successMsg'); e.textContent=msg; e.style.display='block'; document.getElementById('errorMsg').style.display='none' }
+function hideMessages() { document.getElementById('errorMsg').style.display='none'; document.getElementById('successMsg').style.display='none' }
+</script>
+</body>
+</html>
