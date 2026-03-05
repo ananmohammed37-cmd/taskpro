@@ -297,3 +297,23 @@ begin
 
 end;
 $$;
+-- =========================
+-- ADD KYC TO USERS
+-- =========================
+alter table public.users add column if not exists kyc_status text default 'none' check (kyc_status in ('none','pending','approved','rejected'));
+alter table public.users add column if not exists kyc_note text;
+alter table public.users add column if not exists lang text default 'ar';
+
+-- =========================
+-- KYC STORAGE BUCKETS (run in Supabase Dashboard > Storage)
+-- =========================
+-- Create bucket "avatars" (public)
+-- Create bucket "kyc" (private)
+
+-- =========================
+-- ADMIN KYC POLICY
+-- =========================
+create policy "Admin update users" on public.users
+for update using (
+  exists(select 1 from public.users where id = auth.uid() and role = 'admin')
+);

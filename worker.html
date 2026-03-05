@@ -148,6 +148,68 @@ textarea.form-input{resize:vertical;min-height:100px;}
 
 .loading{text-align:center;padding:48px;color:var(--muted);font-size:0.9rem;}
 @media(max-width:768px){.stats-row{grid-template-columns:1fr 1fr;}.nav-tabs{display:none;}.page{padding:16px;}}
+
+/* LANG SWITCHER */
+.lang-switcher{display:flex;gap:4px;}
+.lang-btn{padding:3px 8px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:0.7rem;cursor:pointer;font-family:'Tajawal',sans-serif;transition:.2s;}
+.lang-btn.active{background:var(--accent);color:white;border-color:var(--accent);}
+
+/* KYC BADGE */
+.kyc-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:0.7rem;font-weight:700;}
+.kyc-none{background:rgba(245,66,66,0.1);color:#f54242;border:1px solid rgba(245,66,66,0.2);}
+.kyc-pending{background:rgba(255,209,46,0.1);color:var(--yellow);border:1px solid rgba(255,209,46,0.2);}
+.kyc-approved{background:rgba(46,255,158,0.1);color:var(--green);border:1px solid rgba(46,255,158,0.2);}
+
+/* AVATAR MODAL */
+.user-avatar{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.85rem;cursor:pointer;overflow:hidden;position:relative;}
+.user-avatar img{width:100%;height:100%;object-fit:cover;}
+.avatar-modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;display:none;align-items:center;justify-content:center;}
+.avatar-modal.open{display:flex;}
+.am-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;width:300px;text-align:center;}
+.am-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:16px;}
+.am-preview{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;overflow:hidden;border:3px dashed rgba(124,92,252,0.4);cursor:pointer;}
+.am-preview img{width:100%;height:100%;object-fit:cover;}
+.am-btns{display:flex;gap:8px;margin-top:16px;}
+.am-save{flex:1;padding:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:10px;color:white;font-family:'Tajawal',sans-serif;font-weight:700;cursor:pointer;}
+.am-cancel{flex:1;padding:10px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:10px;color:var(--muted);font-family:'Tajawal',sans-serif;cursor:pointer;}
+
+/* CHATBOT */
+.chat-fab{position:fixed;bottom:28px;left:28px;width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 8px 24px rgba(124,92,252,0.4);transition:.3s cubic-bezier(.34,1.56,.64,1);z-index:400;}
+.chat-fab:hover{transform:scale(1.1) translateY(-2px);}
+.chat-window{position:fixed;bottom:100px;left:28px;width:360px;height:490px;background:var(--card);border:1px solid rgba(124,92,252,0.25);border-radius:20px;display:flex;flex-direction:column;z-index:400;box-shadow:0 24px 60px rgba(0,0,0,0.5);opacity:0;transform:translateY(20px) scale(0.95);pointer-events:none;transition:.3s cubic-bezier(.34,1.56,.64,1);}
+.chat-window.open{opacity:1;transform:translateY(0) scale(1);pointer-events:all;}
+.chat-header{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:10px;border-radius:20px 20px 0 0;background:linear-gradient(135deg,rgba(124,92,252,0.12),rgba(252,92,160,0.08));}
+.chat-av{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.chat-name{font-weight:800;font-size:0.85rem;}
+.chat-status{font-size:0.7rem;color:var(--green);display:flex;align-items:center;gap:4px;}
+.chat-status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);}
+.chat-close{margin-right:auto;width:26px;height:26px;border-radius:8px;background:rgba(255,255,255,0.06);border:none;color:var(--muted);cursor:pointer;font-size:0.9rem;transition:.2s;}
+.chat-close:hover{background:rgba(255,255,255,0.1);color:var(--text);}
+.chat-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;scroll-behavior:smooth;}
+.chat-msgs::-webkit-scrollbar{width:3px;}
+.chat-msgs::-webkit-scrollbar-thumb{background:rgba(124,92,252,0.3);border-radius:2px;}
+.msg{max-width:84%;display:flex;flex-direction:column;gap:2px;}
+.msg.bot{align-self:flex-start;}
+.msg.user{align-self:flex-end;}
+.msg-bubble{padding:9px 13px;border-radius:14px;font-size:0.82rem;line-height:1.5;}
+.msg.bot .msg-bubble{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.06);border-bottom-right-radius:4px;}
+.msg.user .msg-bubble{background:linear-gradient(135deg,var(--accent),var(--accent2));border-bottom-left-radius:4px;color:white;}
+.msg-time{font-size:0.63rem;color:var(--muted);padding:0 4px;}
+.msg.user .msg-time{text-align:right;}
+.typing-ind{display:flex;gap:4px;align-items:center;padding:9px 13px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.06);border-radius:14px;border-bottom-right-radius:4px;width:fit-content;}
+.typing-ind span{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:typing 1.2s infinite;}
+.typing-ind span:nth-child(2){animation-delay:.2s;}
+.typing-ind span:nth-child(3){animation-delay:.4s;}
+@keyframes typing{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-5px);opacity:1}}
+.chat-sugg{padding:6px 12px;display:flex;gap:5px;flex-wrap:wrap;}
+.sugg-btn{padding:4px 10px;border-radius:20px;border:1px solid rgba(124,92,252,0.3);background:transparent;color:var(--accent);font-size:0.7rem;font-family:'Tajawal',sans-serif;cursor:pointer;transition:.2s;white-space:nowrap;}
+.sugg-btn:hover{background:rgba(124,92,252,0.1);}
+.chat-input-wrap{padding:10px 12px;border-top:1px solid rgba(255,255,255,0.06);display:flex;gap:8px;align-items:flex-end;}
+.chat-input{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:9px 13px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:0.83rem;outline:none;resize:none;max-height:70px;transition:.2s;line-height:1.4;}
+.chat-input:focus{border-color:rgba(124,92,252,0.4);}
+.chat-send{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.95rem;transition:.2s;flex-shrink:0;}
+.chat-send:hover{opacity:0.85;transform:scale(1.05);}
+.chat-send:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
 </style>
 </head>
 <body>
@@ -155,18 +217,39 @@ textarea.form-input{resize:vertical;min-height:100px;}
 <nav>
   <div class="nav-logo">TaskPro</div>
   <div class="nav-tabs">
-    <button class="nav-tab active" onclick="showPage('explore',this)">🔍 المهام</button>
-    <button class="nav-tab" onclick="showPage('dashboard',this)">📊 لوحتي</button>
-    <button class="nav-tab" onclick="showPage('wallet',this)">💎 محفظتي</button>
+    <button class="nav-tab active" onclick="showPage('explore',this)" id="navTasks">🔍 المهام</button>
+    <button class="nav-tab" onclick="showPage('dashboard',this)" id="navDash">📊 لوحتي</button>
+    <button class="nav-tab" onclick="showPage('wallet',this)" id="navWallet">💎 محفظتي</button>
   </div>
   <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn active" data-lang="ar" onclick="switchLang('ar')">AR</button>
+      <button class="lang-btn" data-lang="en" onclick="switchLang('en')">EN</button>
+      <button class="lang-btn" data-lang="fr" onclick="switchLang('fr')">FR</button>
+      <button class="lang-btn" data-lang="es" onclick="switchLang('es')">ES</button>
+      <button class="lang-btn" data-lang="tr" onclick="switchLang('tr')">TR</button>
+    </div>
     <div class="balance-pill" onclick="showPage('wallet',document.querySelectorAll('.nav-tab')[2])">
       <span>💎</span><span class="balance-val" id="navBal">0.00</span>
     </div>
     <div class="notif-btn" id="notifBtn">🔔<div class="notif-dot" id="notifDot" style="display:none"></div></div>
-    <div class="user-avatar" id="userAvatar">?</div>
+    <div class="user-avatar" id="userAvatar" onclick="openAvatarModal()">?</div>
   </div>
 </nav>
+
+<!-- AVATAR MODAL -->
+<div class="avatar-modal" id="avatarModal">
+  <div class="am-box">
+    <div class="am-title" id="amTitle">تغيير الصورة الشخصية</div>
+    <div class="am-preview" id="amPreview" onclick="document.getElementById('amInput').click()">📷</div>
+    <div style="font-size:0.75rem;color:var(--muted)" id="amHint">اضغط لاختيار صورة جديدة</div>
+    <input type="file" id="amInput" accept="image/*" style="display:none" onchange="previewNewAvatar(this)">
+    <div class="am-btns">
+      <button class="am-save" id="amSaveBtn" onclick="saveAvatar()">حفظ</button>
+      <button class="am-cancel" onclick="document.getElementById('avatarModal').classList.remove('open')" id="amCancelBtn">إلغاء</button>
+    </div>
+  </div>
+</div>
 
 <!-- EXPLORE -->
 <div class="page active" id="page-explore">
@@ -339,7 +422,16 @@ async function init() {
   if (!session.data.session) { window.location.href = 'index.html'; return }
   currentUser = await getUser()
   if (!currentUser || currentUser.role !== 'worker') { window.location.href = 'index.html'; return }
-  document.getElementById('userAvatar').textContent = currentUser.username?.[0]?.toUpperCase() || '?'
+
+  // Avatar
+  const avatarEl = document.getElementById('userAvatar')
+  if (currentUser.avatar_url) avatarEl.innerHTML = `<img src="${currentUser.avatar_url}" alt="avatar">`
+  else avatarEl.textContent = currentUser.username?.[0]?.toUpperCase() || '?'
+
+  // Apply saved language
+  const savedLang = localStorage.getItem('taskpro_lang') || 'ar'
+  if(window.switchLang) setTimeout(() => window.switchLang(savedLang), 100)
+
   document.getElementById('navBal').textContent = parseFloat(currentUser.balance || 0).toFixed(2)
   document.getElementById('walletBig').innerHTML = `${parseFloat(currentUser.balance || 0).toFixed(2)} <span style="font-size:1.2rem;opacity:.6">USDT</span>`
   if (currentUser.wallet_address) {
@@ -566,7 +658,181 @@ function showToast(icon, title, sub) {
   setTimeout(() => t.classList.remove('show'), 4000)
 }
 
-init()
+<!-- CHATBOT -->
+<button class="chat-fab" onclick="toggleChat()" title="المساعد الذكي">🤖</button>
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-av">🤖</div>
+    <div><div class="chat-name" id="chatName">مساعد TaskPro</div><div class="chat-status" id="chatStatusTxt">متاح دائماً</div></div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-msgs" id="chatMsgs">
+    <div class="msg bot"><div class="msg-bubble" id="chatWelcome">مرحباً! 👋 أنا مساعدك الذكي. كيف أقدر أساعدك؟</div></div>
+  </div>
+  <div class="chat-sugg" id="chatSugg">
+    <button class="sugg-btn" onclick="sendSugg(this)" id="sugg1">كيف أتقدم لمهمة؟</button>
+    <button class="sugg-btn" onclick="sendSugg(this)" id="sugg2">كيف أسحب أرباحي؟</button>
+    <button class="sugg-btn" onclick="sendSugg(this)" id="sugg3">ما هو KYC؟</button>
+  </div>
+  <div class="chat-input-wrap">
+    <textarea class="chat-input" id="chatInput" rows="1"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"
+      oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+    <button class="chat-send" id="chatSendBtn" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
+<script>
+// ===== LANGUAGE SYSTEM =====
+const LANGS = { ar:{dir:'rtl'}, en:{dir:'ltr'}, fr:{dir:'ltr'}, es:{dir:'ltr'}, tr:{dir:'ltr'} }
+const LT = {
+  navTasks:{ar:'🔍 المهام',en:'🔍 Tasks',fr:'🔍 Tâches',es:'🔍 Tareas',tr:'🔍 Görevler'},
+  navDash:{ar:'📊 لوحتي',en:'📊 Dashboard',fr:'📊 Tableau de bord',es:'📊 Panel',tr:'📊 Pano'},
+  navWallet:{ar:'💎 محفظتي',en:'💎 My Wallet',fr:'💎 Mon portefeuille',es:'💎 Mi cartera',tr:'💎 Cüzdanım'},
+  amTitle:{ar:'تغيير الصورة الشخصية',en:'Change Profile Photo',fr:'Changer la photo',es:'Cambiar foto',tr:'Fotoğrafı değiştir'},
+  amHint:{ar:'اضغط لاختيار صورة جديدة',en:'Click to choose a new photo',fr:'Cliquez pour choisir',es:'Clic para elegir',tr:'Yeni fotoğraf seç'},
+  amSave:{ar:'حفظ',en:'Save',fr:'Enregistrer',es:'Guardar',tr:'Kaydet'},
+  amCancel:{ar:'إلغاء',en:'Cancel',fr:'Annuler',es:'Cancelar',tr:'İptal'},
+  chatName:{ar:'مساعد TaskPro',en:'TaskPro Assistant',fr:'Assistant TaskPro',es:'Asistente TaskPro',tr:'TaskPro Asistanı'},
+  chatStatusTxt:{ar:'متاح دائماً',en:'Always available',fr:'Toujours disponible',es:'Siempre disponible',tr:'Her zaman mevcut'},
+  chatWelcome:{ar:'مرحباً! 👋 أنا مساعدك الذكي. كيف أقدر أساعدك؟',en:'Hello! 👋 I\'m your smart assistant. How can I help?',fr:'Bonjour! 👋 Je suis votre assistant. Comment puis-je vous aider?',es:'¡Hola! 👋 Soy tu asistente. ¿Cómo puedo ayudarte?',tr:'Merhaba! 👋 Akıllı asistanınım. Nasıl yardımcı olabilirim?'},
+  sugg1:{ar:'كيف أتقدم لمهمة؟',en:'How to apply for a task?',fr:'Comment postuler à une tâche?',es:'¿Cómo solicitar una tarea?',tr:'Göreve nasıl başvurulur?'},
+  sugg2:{ar:'كيف أسحب أرباحي؟',en:'How to withdraw earnings?',fr:'Comment retirer mes gains?',es:'¿Cómo retirar mis ganancias?',tr:'Kazancımı nasıl çekerim?'},
+  sugg3:{ar:'ما هو KYC؟',en:'What is KYC?',fr:'Qu\'est-ce que le KYC?',es:'¿Qué es KYC?',tr:'KYC nedir?'},
+  chatPlaceholder:{ar:'اكتب سؤالك...',en:'Type your question...',fr:'Tapez votre question...',es:'Escribe tu pregunta...',tr:'Sorunuzu yazın...'},
+}
+
+let currentLang = localStorage.getItem('taskpro_lang') || 'ar'
+
+window.switchLang = function(lang) {
+  currentLang = lang
+  localStorage.setItem('taskpro_lang', lang)
+  document.documentElement.lang = lang
+  document.documentElement.dir = LANGS[lang]?.dir || 'rtl'
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang))
+  // Update UI text
+  Object.keys(LT).forEach(id => {
+    const el = document.getElementById(id)
+    if(el) el.textContent = LT[id][lang] || LT[id].ar
+  })
+  document.getElementById('chatInput').placeholder = LT.chatPlaceholder[lang] || LT.chatPlaceholder.ar
+}
+
+// Apply saved lang on load
+document.addEventListener('DOMContentLoaded', () => switchLang(currentLang))
+
+// ===== AVATAR =====
+let newAvatarFile = null
+
+window.openAvatarModal = function() {
+  document.getElementById('avatarModal').classList.add('open')
+  const p = document.getElementById('amPreview')
+  if(currentUser?.avatar_url) p.innerHTML = `<img src="${currentUser.avatar_url}">`
+  else p.innerHTML = currentUser?.username?.[0]?.toUpperCase() || '?'
+}
+
+window.previewNewAvatar = function(input) {
+  const file = input.files[0]; if(!file) return
+  newAvatarFile = file
+  const r = new FileReader()
+  r.onload = e => document.getElementById('amPreview').innerHTML = `<img src="${e.target.result}">`
+  r.readAsDataURL(file)
+}
+
+window.saveAvatar = async function() {
+  if(!newAvatarFile) return
+  const btn = document.getElementById('amSaveBtn')
+  btn.disabled = true; btn.textContent = '...'
+  try {
+    const ext = newAvatarFile.name.split('.').pop()
+    const path = `avatars/${currentUser.id}.${ext}`
+    await supabase.storage.from('avatars').upload(path, newAvatarFile, { upsert: true })
+    const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(path)
+    await supabase.from('users').update({ avatar_url: urlData.publicUrl }).eq('id', currentUser.id)
+    currentUser.avatar_url = urlData.publicUrl
+    document.getElementById('userAvatar').innerHTML = `<img src="${urlData.publicUrl}">`
+    document.getElementById('avatarModal').classList.remove('open')
+    showToast('✅', LT.amSave[currentLang] || 'Saved', '')
+  } catch(e) { showToast('❌', 'Error', '') }
+  btn.disabled = false; btn.textContent = LT.amSave[currentLang] || 'Save'
+  newAvatarFile = null
+}
+
+// ===== CHATBOT =====
+let chatOpen = false, chatHistory = []
+
+const CHAT_SYSTEM = {
+  ar: `أنت مساعد ذكي لمنصة TaskPro للمهام المستقلة. ساعد العمال بأسلوب ودي ومختصر باللغة العربية.
+المنصة: ربط عمال مستقلين بمهام مدفوعة بـ USDT.
+المهام: تصميم، برمجة، كتابة، تسويق.
+العملية: تصفح → تقدّم → انتظر قبول → نفّذ → سلّم → استلم USDT.
+KYC: التحقق من الهوية مطلوب للسحب (هوية + سيلفي).
+السحب: عبر محفظة TRC20/BEP20، حد أدنى 5 USDT.
+ردودك: 3-4 جمل، استخدم emoji باعتدال.`,
+  en: `You are a smart assistant for TaskPro freelance platform. Help workers in a friendly, concise way in English.
+Platform: connects freelancers with USDT-paid tasks.
+Tasks: design, code, writing, marketing.
+Process: browse → apply → wait for acceptance → complete → submit → receive USDT.
+KYC: identity verification required for withdrawals (ID + selfie).
+Withdrawals: via TRC20/BEP20 wallet, minimum 5 USDT.
+Responses: 3-4 sentences, use emojis moderately.`,
+  fr: `Vous êtes un assistant intelligent pour la plateforme TaskPro. Aidez les travailleurs en français de manière amicale et concise.`,
+  es: `Eres un asistente inteligente para la plataforma TaskPro. Ayuda a los trabajadores en español de manera amigable y concisa.`,
+  tr: `TaskPro platformu için akıllı bir asistansınız. Çalışanlara Türkçe olarak samimi ve kısa bir şekilde yardım edin.`
+}
+
+function toggleChat() {
+  chatOpen = !chatOpen
+  document.getElementById('chatWindow').classList.toggle('open', chatOpen)
+  if(chatOpen) setTimeout(() => document.getElementById('chatInput').focus(), 300)
+}
+
+window.sendSugg = function(btn) {
+  document.getElementById('chatInput').value = btn.textContent
+  document.getElementById('chatSugg').style.display = 'none'
+  sendChat()
+}
+
+window.sendChat = async function() {
+  const input = document.getElementById('chatInput')
+  const text = input.value.trim(); if(!text) return
+  addMsg('user', text)
+  input.value = ''; input.style.height = 'auto'
+  document.getElementById('chatSendBtn').disabled = true
+  document.getElementById('chatSugg').style.display = 'none'
+  chatHistory.push({ role:'user', content: text })
+  const tid = 't_'+Date.now()
+  const msgs = document.getElementById('chatMsgs')
+  msgs.innerHTML += `<div class="msg bot" id="${tid}"><div class="typing-ind"><span></span><span></span><span></span></div></div>`
+  msgs.scrollTop = msgs.scrollHeight
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:1000,
+        system: CHAT_SYSTEM[currentLang] || CHAT_SYSTEM.ar,
+        messages: chatHistory
+      })
+    })
+    const data = await res.json()
+    const reply = data.content?.[0]?.text || '...'
+    chatHistory.push({ role:'assistant', content: reply })
+    document.getElementById(tid)?.remove()
+    addMsg('bot', reply)
+  } catch(e) {
+    document.getElementById(tid)?.remove()
+    addMsg('bot', '⚠️ Connection error. Please try again.')
+  }
+  document.getElementById('chatSendBtn').disabled = false
+}
+
+function addMsg(role, text) {
+  const msgs = document.getElementById('chatMsgs')
+  const now = new Date().toLocaleTimeString(currentLang+'-JO', {hour:'2-digit',minute:'2-digit'})
+  msgs.innerHTML += `<div class="msg ${role}"><div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div><div class="msg-time">${now}</div></div>`
+  msgs.scrollTop = msgs.scrollHeight
+}
 </script>
+
 </body>
-</html>
